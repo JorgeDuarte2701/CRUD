@@ -9,6 +9,11 @@ struct Estudiante{
 	char nombres[50];
 	char apellidos[50];
 	int telefono;
+	char direccion[50];
+	int notas[5];
+	int *p_notas = notas;
+	
+	
 };
 void crear();
 void leer();
@@ -36,6 +41,8 @@ void buscar(){
         cout << "Nombre: " << estudiante.nombres << endl;
         cout << "Apellido: " << estudiante.apellidos << endl;
         cout << "Telefono: " << estudiante.telefono << endl;
+        cout << "direccion: " << estudiante.direccion << endl;
+        cout<<	"nota: "	<<estudiante.p_notas<<endl;
         cout << endl;
 	
 	fclose(archivo);
@@ -54,7 +61,7 @@ void leer(){
 		fread(&estudiante,sizeof(Estudiante),1, archivo);
 		do{
 			
-			cout<<id<<" | "<<estudiante.codigo<<" | "<<estudiante.nombres<<" | "<<estudiante.apellidos<<" | "<<estudiante.telefono<<endl;
+			cout<<id<<" | "<<estudiante.codigo<<" | "<<estudiante.nombres<<" | "<<estudiante.apellidos<<" | "<<estudiante.telefono<<" | "<<estudiante.direccion<<" | "<<estudiante.p_notas<<endl;
 			fread(&estudiante,sizeof(Estudiante),1, archivo);
 			id+=1;
 		}while(feof(archivo)==0);
@@ -65,11 +72,11 @@ void crear(){
 	FILE* archivo = fopen(nombre_archivo,"ab");
 	Estudiante estudiante;
 	char continuar;
-	string nombre,apellido;
+	string nombre,apellido,direccio;
 	do{
 		fflush(stdin);
 			int id=0;
-			cout<<"Ingrese el Id que desea Modifica:";
+			cout<<"Ingrese el Id que desea Modificar:";
 			cin>>id;
 			
 			cout<<"Ingrese Codigo:";
@@ -79,15 +86,24 @@ void crear(){
 			cout<<"Ingrese Nombres:";
 			getline(cin,nombre);
 			strcpy(estudiante.nombres,nombre.c_str());
-	cout<<"Ingrese Apellidos:";
+			cout<<"Ingrese Apellidos:";
 			getline(cin,apellido);
 			strcpy(estudiante.apellidos,apellido.c_str());
 			
 			cout<<"Ingrese Telefono:";
 			cin>>estudiante.telefono;
 			cin.ignore();
+
+			cout<<"Ingrese Direccion:";
+			getline(cin,direccio);
+			strcpy(estudiante.direccion,direccio.c_str());
+			
+			cout<<"Ingrese Notas:";
+			cin>>estudiante.p_notas;
+			cin.ignore();
 			fwrite(&estudiante,sizeof(Estudiante),1, archivo);
-	
+			
+			
 	
 		cout<<"Desea Agregar otro Estudiante (s/n):";
 		cin>>continuar;
@@ -99,7 +115,7 @@ void crear(){
 void actualizar(){
 		FILE* archivo = fopen(nombre_archivo,"r+b");
 			Estudiante estudiante;
-			string nombre,apellido;
+			string nombre,apellido,direccio;
 			int id=0;
 			cout<<"Ingrese el Id que desea Modifica:";
 			cin>>id;
@@ -120,6 +136,17 @@ cout<<"Ingrese Nombres:";
 			cout<<"Ingrese Telefono:";
 			cin>>estudiante.telefono;
 			cin.ignore();
+			
+						
+			cout<<"Ingrese Direccion:";
+			getline(cin,nombre);
+			strcpy(estudiante.direccion,direccio.c_str());
+			
+			cout<<"Ingrese Notas:";
+			cin>>estudiante.p_notas;
+			cin.ignore();
+			
+			
 			fwrite(&estudiante,sizeof(Estudiante),1, archivo);
 		fclose(archivo);
 		leer(); }
